@@ -10,6 +10,8 @@ const EssentialModel = require('./essentials');
 const MessageModel = require('./message');
 const TechnologyModel = require('./technology');
 const CourseModel = require('./courses');
+const BlogPost = require('./blogpost'); 
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -117,7 +119,16 @@ app.get('/courses', async (req, res) => {
     res.status(500).json({ success: false, error: "Failed to get project information" });
   }
 });
-
+app.get('/blog', async (req, res) => {
+  try {
+    // Find all blog posts in the database using the BlogPost model
+    const blogPosts = await BlogPost.find();
+    res.json({ success: true, blogPosts });
+  } catch (error) {
+    console.error("Error getting blog posts:", error);
+    res.status(500).json({ success: false, error: "Failed to get blog posts" });
+  }
+});
 
 
 app.post('/submit-message', async (req, res) => {
