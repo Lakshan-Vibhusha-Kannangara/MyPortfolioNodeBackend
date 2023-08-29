@@ -3,6 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const Project = require('./project'); 
 const InterestModel = require('./interest');
+const ProjectInfoModel = require('./projectinfo');
 const InfoModel = require('./info');
 const TechnicalModel = require('./technical');
 const ProjInfoModel = require('./infos');
@@ -123,12 +124,32 @@ app.get('/blog', async (req, res) => {
   try {
     // Find all blog posts in the database using the BlogPost model
     const blogPosts = await BlogPost.find();
+    console.log("real data",blogPosts)
     res.json({ success: true, blogPosts });
   } catch (error) {
     console.error("Error getting blog posts:", error);
     res.status(500).json({ success: false, error: "Failed to get blog posts" });
   }
 });
+app.get('/projectinfo/:projectNo', async (req, res) => {
+  try {
+    // Fetch project information from your database or data source
+    const projectInfo = await ProjectInfoModel.find(); // Assuming you have a model for project information
+
+    // Log a success message
+   
+    // Return the project information as JSON
+    res.json({ success: true, projectInfo });
+  } catch (error) {
+    console.error("Error getting project information:", error);
+
+    // Log an error message
+    console.error("Failed to retrieve project information");
+
+    res.status(500).json({ success: false, error: "Failed to get project information" });
+  }
+});
+
 
 
 app.post('/submit-message', async (req, res) => {
