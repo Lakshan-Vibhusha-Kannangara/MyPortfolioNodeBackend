@@ -3,6 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const Project = require('./project'); 
 const InterestModel = require('./interest');
+const ProjectInfoModel = require('./projectinfo');
 const InfoModel = require('./info');
 const TechnicalModel = require('./technical');
 const ProjInfoModel = require('./infos');
@@ -10,6 +11,8 @@ const EssentialModel = require('./essentials');
 const MessageModel = require('./message');
 const TechnologyModel = require('./technology');
 const CourseModel = require('./courses');
+const BlogPost = require('./blogpost'); 
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -114,6 +117,43 @@ app.get('/courses', async (req, res) => {
     res.json({ success: true, course });
   } catch (error) {
     console.error("Error getting project information:", error);
+    res.status(500).json({ success: false, error: "Failed to get project information" });
+  }
+});
+app.get('/blog', async (req, res) => {
+  try {
+    // Find all blog posts in the database using the BlogPost model
+    const blogPosts = await BlogPost.find();
+    console.log("real data",blogPosts)
+    res.json({ success: true, blogPosts });
+  } catch (error) {
+    console.error("Error getting blog posts:", error);
+    res.status(500).json({ success: false, error: "Failed to get blog posts" });
+  }
+});
+app.get('/projectinfo/:projectNo', async (req, res) => {
+  try {
+    const projectNo = req.params.projectNo;
+
+    // Fetch project information from your database or data source based on projectNo
+    const projectInfo = await ProjectInfoModel.findOne({ projectNo }); // Assuming projectNo is a field in your schema
+
+    if (!projectInfo) {
+      // If projectInfo is not found, return a 404 status and message
+      return res.status(404).json({ success: false, error: "Project not found" });
+    }
+
+    // Log a success message
+    console.log("Successfully retrieved project information for projectNo:", projectNo);
+
+    // Return the project information as JSON
+    res.json({ success: true, projectInfo });
+  } catch (error) {
+    console.error("Error getting project information:", error);
+
+    // Log an error message
+    console.error("Failed to retrieve project information");
+
     res.status(500).json({ success: false, error: "Failed to get project information" });
   }
 });
