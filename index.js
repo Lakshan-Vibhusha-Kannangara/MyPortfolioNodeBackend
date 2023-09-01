@@ -124,7 +124,7 @@ app.get('/blog', async (req, res) => {
   try {
     // Find all blog posts in the database using the BlogPost model
     const blogPosts = await BlogPost.find();
-    console.log("real data",blogPosts)
+
     res.json({ success: true, blogPosts });
   } catch (error) {
     console.error("Error getting blog posts:", error);
@@ -144,7 +144,7 @@ app.get('/projectinfo/:projectNo', async (req, res) => {
     }
 
     // Log a success message
-    console.log("Successfully retrieved project information for projectNo:", projectNo);
+  
 
     // Return the project information as JSON
     res.json({ success: true, projectInfo });
