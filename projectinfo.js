@@ -9,7 +9,7 @@ const projectInfoSchema = new mongoose.Schema({
   text: [{ type: String }],
   github:{type:String},
   content:{type:String},
-  video:{type:String}
+  videos:[{type:String}]
 });
 
 // Create the ProjectInfoModel based on the schema
